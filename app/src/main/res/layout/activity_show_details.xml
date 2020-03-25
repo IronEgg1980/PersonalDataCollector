@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".details.ShowDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolBarStyle"
+        app:titleTextColor="@android:color/white" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedSV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="2dp"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/account_discribe_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="备注："
+                android:textColor="@color/colorTitleText"
+                android:textSize="11sp" />
+            <LinearLayout
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分组："
+                    android:textColor="@color/colorTitleText"
+                    android:textSize="11sp" />
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:animateLayoutChanges="true"
+                    android:overlapAnchor="false"
+                    android:id="@+id/spinner"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/imageGroup">
+                <androidx.viewpager.widget.ViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:id="@+id/extra_image_VP"/>
+                <yzw.ahaqth.personaldatacollector.custom_views.ViewPagerPointIndicator
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/viewpagerIndicator"/>
+            </LinearLayout>
+
+
+            <!--            <android.support.v7.widget.RecyclerView-->
+            <!--                android:id="@+id/extra_image_RLV"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="240dp"-->
+            <!--                android:layout_marginBottom="12dp"-->
+            <!--                android:fadeScrollbars="false"-->
+            <!--                android:scrollbarSize="2dp"-->
+            <!--                android:scrollbarStyle="insideOverlay"-->
+            <!--                android:scrollbars="horizontal" />-->
+
+            <LinearLayout
+                android:background="@color/colorWhite"
+                android:id="@+id/account_name_Group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/account_name_title_TV"
+                    style="@style/RecordItemTitleTextViewStyle"
+                    android:text="用户名" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/account_name_TV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="12dp"
+                        android:text="用户名"
+                        android:textIsSelectable="true" />
+
+                    <ImageButton
+                        android:id="@+id/copy_account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:src="@drawable/copy_24dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@color/colorWhite"
+                android:id="@+id/account_PWD_Group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/account_PWD_title_TV"
+                    style="@style/RecordItemTitleTextViewStyle"
+                    android:text="密码" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/account_pwd_TV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="12dp"
+                        android:text="123456"
+                        android:textIsSelectable="true" />
+
+                    <ImageButton
+                        android:id="@+id/show_account_pwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:src="@drawable/view" />
+
+                    <ImageButton
+                        android:id="@+id/copy_account_pwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:src="@drawable/copy_24dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:background="@color/colorWhite"
+                android:id="@+id/extra_text_RLV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/record_time_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:text="创建时间：2019年12月12日 19:00:00"
+                android:textColor="@color/colorTitleText"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/modify_time_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="最近修改：2019年12月12日 19:00:00"
+                android:textColor="@color/colorTitleText"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="yzw.ahaqth.personaldatacollector">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name="yzw.ahaqth.personaldatacollector.MyApApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/accountbag_ico2"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/accountbag_ico2"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme">
+        <activity android:name="yzw.ahaqth.personaldatacollector.allrecords.RecordGroupActivity"></activity>
+        <activity android:name="yzw.ahaqth.personaldatacollector.allrecords.DeleResumeActivity" />
+        <activity
+            android:name="yzw.ahaqth.personaldatacollector.allrecords.SetGesturePWDActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="yzw.ahaqth.personaldatacollector.allrecords.SetUserNamePWDActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="yzw.ahaqth.personaldatacollector.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="yzw.ahaqth.personaldatacollector.details.ShowLargeImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="yzw.ahaqth.personaldatacollector.inputoredit.InputOrEditRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="yzw.ahaqth.personaldatacollector.details.ShowDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="yzw.ahaqth.personaldatacollector.allrecords.ShowAllRecordActivity" />
+        <activity
+            android:name="com.linchaolong.android.imagepicker.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+    </application>
+
+</manifest>
