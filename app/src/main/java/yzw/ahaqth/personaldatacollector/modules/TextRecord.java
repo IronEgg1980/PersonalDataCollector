@@ -6,8 +6,8 @@ import org.litepal.crud.LitePalSupport;
 import yzw.ahaqth.personaldatacollector.tools.EncryptAndDecrypt;
 
 public class TextRecord extends LitePalSupport {
-    public final static String KEY = "field1";
-    public final static String CONTENT = "field2";
+    public final static String KEY = "fqektdpFQIb";
+    public final static String CONTENT = "mzR4z37";
 
     private String key;
     private String content;
@@ -30,5 +30,19 @@ public class TextRecord extends LitePalSupport {
         this.content = EncryptAndDecrypt.encrypt(content);
     }
 
+    public String getRawKey(){
+        return this.key;
+    }
 
+    public void setRawKey(String key){
+        this.key = key;
+    }
+
+    public String getRawContent(){
+        return this.content;
+    }
+
+    public void setRawContent(String content){
+        this.content = content;
+    }
 }

@@ -8,6 +8,8 @@ public class Setup extends LitePalSupport {
     private String key;
     private String value;
 
+    public Setup(){}
+
     public Setup(String key,String value){
         this.key = EncryptAndDecrypt.encrypt(key);
         this.value = EncryptAndDecrypt.encrypt(value);
@@ -31,5 +33,21 @@ public class Setup extends LitePalSupport {
 
     public void setValue(String value) {
         this.value = EncryptAndDecrypt.encrypt(value);
+    }
+
+    public String getRawKey(){
+        return this.key;
+    }
+
+    public void setRawKey(String key){
+        this.key = key;
+    }
+
+    public String getRawValue(){
+        return this.value;
+    }
+
+    public void setRawValue(String value){
+        this.value = value;
     }
 }

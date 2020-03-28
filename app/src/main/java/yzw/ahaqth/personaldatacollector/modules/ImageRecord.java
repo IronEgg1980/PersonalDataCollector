@@ -21,6 +21,22 @@ public class ImageRecord extends LitePalSupport {
         this.path = EncryptAndDecrypt.encrypt(path);
     }
 
+    public String getRawPath(){
+        return this.path;
+    }
+
+    public String getRawImageFileName(){
+        return this.imageFileName;
+    }
+
+    public void setRawPath(String path){
+        this.path = path;
+    }
+
+    public void setRawImageFileName(String imageFileName){
+        this.imageFileName = imageFileName;
+    }
+
     private String imageFileName;
     private String path;
     @Column(ignore = true)

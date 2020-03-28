@@ -133,6 +133,38 @@ public class AccountRecord extends LitePalSupport {
         this.describe = EncryptAndDecrypt.encrypt(describe);
     }
 
+    public String getRawRecordName() {
+        return this.recordName;
+    }
+
+    public void setRawRecordName(String recordName) {
+        this.recordName = recordName;
+    }
+
+    public String getRawAccountName() {
+        return this.accountName;
+    }
+
+    public void setRawAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getRawAccountPWD() {
+        return this.accountPWD;
+    }
+
+    public void setRawAccountPWD(String accountPWD) {
+        this.accountPWD = accountPWD;
+    }
+
+    public String getRawDescribe() {
+        return this.describe;
+    }
+
+    public void setRawDescribe(String describe) {
+        this.describe = describe;
+    }
+
     public int getSortIndex() {
         return sortIndex;
     }

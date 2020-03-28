@@ -284,11 +284,10 @@ public class ShowAllRecordActivity extends BaseActivity {
         findViewById(R.id.slide_menu_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                new ToastFactory(ShowAllRecordActivity.this).showCenterToast("谢谢使用！本页面在建设中...");
                 try {
-                    FileOperator.backup();
+                    FileOperator.parseBackupFile("2020-03-25.bak");
                     new ToastFactory(ShowAllRecordActivity.this).showCenterToast("备份成功！");
-                } catch (JSONException | IOException e) {
+                } catch (JSONException| IOException e) {
                     DialogFactory.getTipsDialog(e.getMessage());
                 }
                 drawerLayout.closeDrawers();

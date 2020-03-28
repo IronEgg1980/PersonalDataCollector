@@ -3,17 +3,39 @@ package yzw.ahaqth.personaldatacollector.operators;
 import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONException;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.SequenceInputStream;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public final class FileOperator {
+    private static String TAG = "殷宗旺";
     public final static String BACKUP_FILE_ENDNAME = ".bak";
-    public final static String ERROR_LOG_SAVE_DIR = Environment.getExternalStorageDirectory() + File.separator + "AccountBagErrorLog";
+    public final static String ERROR_LOG_SAVE_DIR = Environment.getExternalStorageDirectory() + File.separator + "ErrorLog";
     public static File cacheDir;
     public static File fileDir;
     public static File externalCacheDir;
@@ -24,27 +46,26 @@ public final class FileOperator {
     public static File imageCacheDir;
     public static File compressedImageDir;
 
-    private static final String RECORD_GROUP_CLASS = "gF724Rq3Ujt" ;
-    private static final String ACCOUNT_RECORD_CLASS = "8QS9aWv";
-    private static final String SETUP_CLASS = "vgsC6l";
+    private static final String BACKUP_FILES_1 = "gF724Rq3Ujt";
+    private static final String BACKUP_FILES_2 = "8QS9aWv";
 
     public static void initialAppDir(Context context) {
         cacheDir = context.getCacheDir();
         fileDir = context.getFilesDir();
         externalCacheDir = context.getExternalCacheDir();
-        imageCacheDir = new File(externalCacheDir,"image_cache");
-        compressedImageDir = new File(externalCacheDir,"image_compressed");
+        imageCacheDir = new File(externalCacheDir, "image_cache");
+        compressedImageDir = new File(externalCacheDir, "image_compressed");
         externalFileDir = context.getExternalFilesDir(null);
         sdCardDir = Environment.getExternalStorageDirectory();
 //        imageDir = new File(externalFileDir, "images" +File.separator+ SetupOperator.getPhoneId());
         imageDir = new File(externalFileDir, "images");
-        backupDir = new File(Environment.getExternalStorageDirectory() + File.separator + "yzw.ahaqth.accountbag" + File.separator + "Backup");
-        createDirs(imageDir,imageCacheDir,compressedImageDir,backupDir);
+        backupDir = new File(Environment.getExternalStorageDirectory() + File.separator + "yzw.ahaqth.personaldatacollector" + File.separator + "Backup");
+        createDirs(imageDir, imageCacheDir, compressedImageDir, backupDir);
         clearFiles(cacheDir);
         clearExternalCacheDir();
     }
 
-    public static void createDirs(File...dir) {
+    public static void createDirs(File... dir) {
         if (dir == null || dir.length == 0)
             return;
         for (File d : dir) {
@@ -54,7 +75,7 @@ public final class FileOperator {
         }
     }
 
-    public static void createDirs(String...dir) {
+    public static void createDirs(String... dir) {
         if (dir == null || dir.length == 0)
             return;
         File[] files = new File[dir.length];
@@ -62,18 +83,6 @@ public final class FileOperator {
             files[i] = new File(dir[i]);
         }
         createDirs(files);
-    }
-
-    public static String[] getBackupFiles(){
-        return getFileList(backupDir,BACKUP_FILE_ENDNAME);
-    }
-
-    public static File backupImageFiles(){
-        return null;
-    }
-
-    public static void backupData() throws JSONException{
-
     }
 
     public static String[] getFileList(File path, String endName) {
@@ -150,25 +159,213 @@ public final class FileOperator {
     public static boolean clearFilesAndDir(File dir) {
         boolean b;
         b = clearFiles(dir);
-        if(b)
+        if (b)
             b = dir.delete();// 删除目录本身
         return b;
     }
 
-    public static void clearExternalCacheDir(){
+    public static void clearExternalCacheDir() {
         File[] files = externalCacheDir.listFiles();
-        if(files == null || files.length == 0)
+        if (files == null || files.length == 0)
             return;
-        for(File file:files){
-            if(file.isFile()){
+        for (File file : files) {
+            if (file.isFile()) {
                 file.delete();
-            }else{
+            } else {
                 clearFiles(file);
             }
         }
     }
 
-    public static void backup() throws JSONException , IOException {
+    private static byte[] int2ByteArray(int value) {
+        byte[] result = new byte[4];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(result);
+        byteBuffer.putInt(0, value);
+        return result;
+    }
 
+    private static int byteArray2Int(byte[] array) {
+        if (array.length != 4)
+            throw new ArrayStoreException("Call byteArray2Int(byte[] array) error! the array.length() != 4 .");
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4);
+        byteBuffer.put(array, 0, array.length);
+        byteBuffer.flip();
+        return byteBuffer.getInt();
+    }
+
+    private static File getImagesZipFile() throws IOException {
+        File tmpZipFile = new File(cacheDir, "images.bak");
+        File[] files = imageDir.listFiles();
+        if (files != null && files.length > 0) {
+            InputStream inputStream = null;
+            ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tmpZipFile));
+            for (File file : files) {
+                ZipEntry zipEntry = new ZipEntry(file.getName());
+                zipOutputStream.putNextEntry(zipEntry);
+                inputStream = new FileInputStream(file);
+                byte[] buffer = new byte[1024 * 8];
+                int readBytes = 0;
+                while ((readBytes = inputStream.read(buffer)) != -1) {
+                    zipOutputStream.write(buffer, 0, readBytes);
+                }
+                zipOutputStream.closeEntry();
+            }
+            zipOutputStream.close();
+            inputStream.close();
+        }
+        return tmpZipFile;
+    }
+
+    public static void unzipImages(File imagesZipFile){
+
+    }
+//
+//    private static File getJSONFile() throws JSONException, IOException {
+//        File file = new File(cacheDir, "record.bak");
+//        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+//        bufferedWriter.write(JSONOperator.getBackupJsonString());
+//        bufferedWriter.close();
+//        return file;
+//    }
+//
+//    public static void testByteArray() throws JSONException, IOException {
+//        InputStream inputStream = new BufferedInputStream(new FileInputStream(new File(fileDir,"test")));
+//        byte[] bytes = new byte[inputStream.available()];
+//        inputStream.read(bytes);
+//        inputStream.close();
+//        byte[] bytes2 = new byte[bytes.length - 8];
+//        System.arraycopy(bytes,7,bytes2,0,bytes2.length);
+//        String s = hexStr2Str(new String(bytes2));
+//
+////        String s = str2HexStr(JSONOperator.getBackupJsonString());
+////        byte[] bytes1 = s.getBytes();
+////        byte[] bytes2 = new byte[bytes1.length + 8];
+////        for(int i = 0;i<7;i++){
+////            bytes2[i] = (byte) (10+i);
+////        }
+////        bytes2[bytes2.length - 1] = 20;
+////        System.arraycopy(bytes1,0,bytes2,7,bytes1.length);
+//        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File(cacheDir,"hexStr2Str(bytes2).txt")));
+//        outputStream.write(s.getBytes());
+//        outputStream.close();
+//        OutputStream outputStream1 = new BufferedOutputStream(new FileOutputStream(new File(cacheDir,"bytes.txt")));
+//        outputStream1.write(bytes);
+//        outputStream1.close();
+//        String s1 = hexStr2Str(new String(bytes));
+//        OutputStream outputStream2 = new BufferedOutputStream(new FileOutputStream(new File(cacheDir,"hexStr2Str(bytes).txt")));
+//        outputStream2.write(s1.getBytes());
+//        outputStream2.close();
+//        OutputStream outputStream3 = new BufferedOutputStream(new FileOutputStream(new File(cacheDir,"bytes2.txt")));
+//        outputStream3.write(bytes2);
+//        outputStream3.close();
+//    }
+
+
+    /**
+     * 字符串转换成为16进制(无需Unicode编码)
+     * @param str
+     * @return
+     */
+    private static String str2HexStr(String str) {
+        char[] chars = "0123456789ABCDEF".toCharArray();
+        StringBuilder sb = new StringBuilder("");
+        byte[] bs = str.getBytes();
+        int bit;
+        for (byte b : bs) {
+            bit = (b & 0x0f0) >> 4;
+            sb.append(chars[bit]);
+            bit = b & 0x0f;
+            sb.append(chars[bit]);
+            // sb.append(' ');
+        }
+        return sb.toString().trim();
+    }
+
+
+    /**
+     * 16进制直接转换成为字符串(无需Unicode解码)
+     * @param hexStr
+     * @return
+     */
+    private static String hexStr2Str(String hexStr) {
+        String str = "0123456789ABCDEF";
+        char[] hexs = hexStr.toCharArray();
+        byte[] bytes = new byte[hexStr.length() / 2];
+        int n;
+        for (int i = 0; i < bytes.length; i++) {
+            n = str.indexOf(hexs[2 * i]) * 16;
+            n += str.indexOf(hexs[2 * i + 1]);
+            bytes[i] = (byte) (n & 0xff);
+        }
+        return new String(bytes);
+    }
+
+    public static void restore(String fileName) throws JSONException,IOException {
+
+
+
+    }
+
+    public static List<String> parseBackupFile(String fileName) throws JSONException,IOException{
+        List<String> results = new ArrayList<>();
+        File file=new File(backupDir,fileName);
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+        byte[] size = new byte[4];
+        inputStream.read(size);
+        int size1 = byteArray2Int(size);
+        size = new byte[4];
+        inputStream.read(size);
+        int size2 = byteArray2Int(size);
+
+        byte[] jsonBuffer = new byte[size1];
+        byte[] zipBuffer = new byte[size2];
+
+        inputStream.read(jsonBuffer);
+        byte[] realJson  = new byte[jsonBuffer.length - 8];
+        System.arraycopy(jsonBuffer,7,realJson,0,jsonBuffer.length - 8);
+        results.add(hexStr2Str(new String(realJson)));
+
+        File zipFile = new File(cacheDir,System.currentTimeMillis() + ".tmp");
+        results.add(zipFile.getAbsolutePath());
+        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(zipFile));
+        inputStream.read(zipBuffer);
+        outputStream.write(zipBuffer);
+        inputStream.close();
+        outputStream.close();
+//        FileWriter outputStreamWriter = new FileWriter(new File(cacheDir,"test.txt"));
+//        outputStreamWriter.write(results.get(0));
+//        outputStreamWriter.write("\n");
+//        outputStreamWriter.write(results.get(1));
+//        outputStreamWriter.close();
+        return results;
+    }
+
+    public static void backup() throws JSONException, IOException {
+        String bakFileName = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(System.currentTimeMillis()) + BACKUP_FILE_ENDNAME;
+        File backupFile = new File(backupDir,bakFileName);
+        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(backupFile));
+
+        byte[] jsonBytes_origin = str2HexStr(JSONOperator.getBackupJsonString()).getBytes();
+        byte[] jsonBytes_result = new byte[jsonBytes_origin.length + 8];
+        for(int i = 0;i<7;i++){
+            jsonBytes_result[i] = (byte) (10 + i);
+        }
+        jsonBytes_result[jsonBytes_result.length - 1] = 20;
+        System.arraycopy(jsonBytes_origin, 0, jsonBytes_result, 7, jsonBytes_origin.length);
+        byte[] size1 = int2ByteArray(jsonBytes_result.length);
+
+        InputStream inputStream2 = new BufferedInputStream(new FileInputStream(getImagesZipFile()));
+        byte[] size2 = int2ByteArray(inputStream2.available());
+
+        outputStream.write(size1);
+        outputStream.write(size2);
+
+        byte[] image = new byte[inputStream2.available()];
+        inputStream2.read(image);
+        outputStream.write(jsonBytes_result);
+        outputStream.write(image);
+
+        inputStream2.close();
+        outputStream.close();
     }
 }

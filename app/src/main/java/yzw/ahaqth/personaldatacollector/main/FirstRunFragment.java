@@ -13,8 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.security.NoSuchAlgorithmException;
+
 import yzw.ahaqth.personaldatacollector.R;
 import yzw.ahaqth.personaldatacollector.operators.SetupOperator;
+import yzw.ahaqth.personaldatacollector.tools.EncryptAndDecrypt;
+import yzw.ahaqth.personaldatacollector.tools.ToastFactory;
 
 public class FirstRunFragment extends Fragment {
     private MaterialEditText appUsernameET;
@@ -27,7 +31,7 @@ public class FirstRunFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
-        View view = inflater.inflate(R.layout.setup_username_pwd_layout,container,false);
+        View view = inflater.inflate(R.layout.setup_username_pwd_layout, container, false);
         initialView(view);
         return view;
     }
@@ -39,14 +43,14 @@ public class FirstRunFragment extends Fragment {
         appUsernameET.requestFocus();
     }
 
-    private void initialView(View view){
+    private void initialView(View view) {
         appUsernameET = view.findViewById(R.id.app_username_ET);
         appPwdET = view.findViewById(R.id.app_pwd_ET);
         appPwdConfirmET = view.findViewById(R.id.app_pwd_confirm_ET);
         appPwdConfirmET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     activity.scrollToBottom();
                 }
             }
