@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -196,16 +197,17 @@ public final class FileOperator {
     }
 
     private static File getImagesZipFile() throws IOException {
-        File tmpZipFile = new File(cacheDir, "images.bak");
+        File tmpZipFile = null;
         File[] files = imageDir.listFiles();
         if (files != null && files.length > 0) {
+            tmpZipFile = new File(cacheDir, "images.bak");
             InputStream inputStream = null;
             ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tmpZipFile));
             for (File file : files) {
                 ZipEntry zipEntry = new ZipEntry(file.getName());
                 zipOutputStream.putNextEntry(zipEntry);
                 inputStream = new FileInputStream(file);
-                byte[] buffer = new byte[1024 * 8];
+                byte[] buffer = new byte[1024 * 4];
                 int readBytes = 0;
                 while ((readBytes = inputStream.read(buffer)) != -1) {
                     zipOutputStream.write(buffer, 0, readBytes);
@@ -344,27 +346,27 @@ public final class FileOperator {
         return results;
     }
 
-    public static void backup() throws JSONException, IOException {
-        String bakFileName = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(System.currentTimeMillis()) + BACKUP_FILE_ENDNAME;
-        File backupFile = new File(backupDir,bakFileName);
+    public static void backup(String backupFileName) throws JSONException, IOException {
+        File backupFile = new File(backupDir,backupFileName+BACKUP_FILE_ENDNAME);
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(backupFile));
 
         byte[] jsonBytes_origin = str2HexStr(JSONOperator.getBackupJsonString()).getBytes();
         byte[] json = EncryptAndDecrypt.encryptByteArray(jsonBytes_origin,EncryptAndDecrypt.JSON_ENCRYPT_SEED);
-
-        InputStream inputStream2 = new BufferedInputStream(new FileInputStream(getImagesZipFile()));
-        byte[] imageOrigin = new byte[inputStream2.available()];
-        inputStream2.read(imageOrigin);
-        inputStream2.close();
-        byte[] image = EncryptAndDecrypt.encryptByteArray(imageOrigin,EncryptAndDecrypt.JSON_ENCRYPT_SEED);
-
         byte[] size1 = int2ByteArray(json.length);
-        byte[] size2 = int2ByteArray(image.length);
-
         outputStream.write(size1);
-        outputStream.write(size2);
         outputStream.write(json);
-        outputStream.write(image);
+
+        File zipFile = getImagesZipFile();
+        if(zipFile !=null) {
+            InputStream inputStream2 = new BufferedInputStream(new FileInputStream(zipFile));
+            byte[] imageOrigin = new byte[inputStream2.available()];
+            inputStream2.read(imageOrigin);
+            inputStream2.close();
+            byte[] image = EncryptAndDecrypt.encryptByteArray(imageOrigin, EncryptAndDecrypt.JSON_ENCRYPT_SEED);
+            byte[] size2 = int2ByteArray(image.length);
+            outputStream.write(size2);
+            outputStream.write(image);
+        }
         outputStream.close();
     }
 }

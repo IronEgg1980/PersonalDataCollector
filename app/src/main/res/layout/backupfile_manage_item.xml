@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/padding_L"
+    android:paddingEnd="@dimen/padding_L">
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:visibility="gone"
+        android:layout_width="@dimen/height_filelist_item"
+        android:layout_height="@dimen/height_filelist_item"
+        android:id="@+id/backupfile_manage_item_checkbox"/>
+    <TextView
+        android:id="@+id/backupfile_manage_item_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/height_filelist_item"
+        android:gravity="center_vertical"
+        android:text="@string/test_string"
+        android:textSize="@dimen/textsize_M"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backupfile_manage_item_dele"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_filelist_item"
+        android:text="删除"
+        app:icon="@drawable/delete_24dp"
+        app:iconGravity="start"/>
+</LinearLayout>

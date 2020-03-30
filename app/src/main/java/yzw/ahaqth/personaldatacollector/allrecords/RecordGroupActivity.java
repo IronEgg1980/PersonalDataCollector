@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import yzw.ahaqth.personaldatacollector.BaseActivity;
 import yzw.ahaqth.personaldatacollector.R;
 import yzw.ahaqth.personaldatacollector.interfaces.DialogDismissListener;
 import yzw.ahaqth.personaldatacollector.interfaces.ItemClickListener;
@@ -35,7 +36,7 @@ import yzw.ahaqth.personaldatacollector.operators.GroupOperator;
 import yzw.ahaqth.personaldatacollector.tools.DialogFactory;
 import yzw.ahaqth.personaldatacollector.tools.ToastFactory;
 
-public class RecordGroupActivity extends AppCompatActivity {
+public class RecordGroupActivity extends BaseActivity {
     private String TAG = "RecordGroupActivity-YZW";
     private Toolbar toolbar;
     private EditText inputET;
@@ -77,6 +78,8 @@ public class RecordGroupActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        if(!verify_password_flag)
+            finish();
     }
 
     @Override

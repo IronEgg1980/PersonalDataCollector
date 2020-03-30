@@ -14,8 +14,9 @@
         <item name="android:drawablePadding">@dimen/padding_M</item>
         <item name="android:paddingTop">@dimen/padding_M</item>
         <item name="android:paddingBottom">@dimen/padding_M</item>
-        <item name="android:paddingStart">@dimen/padding_M</item>
-        <item name="android:paddingEnd">@dimen/padding_M</item>
+        <item name="android:paddingStart">@dimen/padding_L</item>
+        <item name="android:paddingEnd">@dimen/padding_L</item>
+        <item name="android:layout_marginStart">@dimen/padding_M</item>
         <item name="android:textSize">@dimen/textsize_L</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorTitleText</item>

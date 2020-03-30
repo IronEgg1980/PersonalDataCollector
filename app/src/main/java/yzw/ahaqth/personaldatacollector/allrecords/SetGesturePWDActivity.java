@@ -85,5 +85,7 @@ public class SetGesturePWDActivity extends BaseActivity {
             }
         });
         vibrator = (Vibrator) Objects.requireNonNull(getSystemService(Context.VIBRATOR_SERVICE));
+        if(!verify_password_flag)
+            finish();
     }
 }

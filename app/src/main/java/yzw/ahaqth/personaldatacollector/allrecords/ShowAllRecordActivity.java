@@ -35,6 +35,7 @@ import yzw.ahaqth.personaldatacollector.details.ShowDetailsActivity;
 import yzw.ahaqth.personaldatacollector.inputoredit.InputOrEditRecordActivity;
 import yzw.ahaqth.personaldatacollector.interfaces.DialogDismissListener;
 import yzw.ahaqth.personaldatacollector.interfaces.ItemClickListener;
+import yzw.ahaqth.personaldatacollector.data_safe.BackupRestoreActivity;
 import yzw.ahaqth.personaldatacollector.modules.AccountRecord;
 import yzw.ahaqth.personaldatacollector.modules.RecordGroup;
 import yzw.ahaqth.personaldatacollector.operators.FileOperator;
@@ -95,6 +96,8 @@ public class ShowAllRecordActivity extends BaseActivity {
         };
         lbm.registerReceiver(addRecordBR, new IntentFilter("AddRecord"));
         lbm.registerReceiver(groupFlush, new IntentFilter("GroupFlush"));
+        if(!verify_password_flag)
+            finish();
     }
 
     @Override
@@ -110,26 +113,26 @@ public class ShowAllRecordActivity extends BaseActivity {
         readData();
     }
 
-    private void onRecordBroadcastReceved(){
+    private void onRecordBroadcastReceved() {
         recordGroupId = -1L;
         title = "全部记录";
         readData();
         recyclerview.scrollToPosition(list.size() - 1);
     }
 
-    private void onGoupBroadcastReceved(){
+    private void onGoupBroadcastReceved() {
         groupList.clear();
         groupList.addAll(GroupOperator.findAll(true));
         groupAdapter.notifyDataSetChanged();
     }
 
-    private void showDataInGroup(int groupPosition){
+    private void showDataInGroup(int groupPosition) {
         drawerLayout.closeDrawers();
 
-        if(groupPosition == -1){
+        if (groupPosition == -1) {
             recordGroupId = -1L;
             title = "全部记录";
-        }else{
+        } else {
             RecordGroup recordGroup = groupList.get(groupPosition);
             recordGroupId = recordGroup.getId();
             title = recordGroup.getGroupName();
@@ -172,7 +175,7 @@ public class ShowAllRecordActivity extends BaseActivity {
         startActivity(new Intent(ShowAllRecordActivity.this, SetGesturePWDActivity.class));
     }
 
-    private void setTextPWD(){
+    private void setTextPWD() {
         drawerLayout.closeDrawers();
         SetupOperator.setInputPassWordMode(1);
         new ToastFactory(ShowAllRecordActivity.this).showCenterToast("已启用文字密码");
@@ -188,7 +191,7 @@ public class ShowAllRecordActivity extends BaseActivity {
         titleIV.setImageResource(imagesId[index]);
     }
 
-    private void showRecordDetails(int position,View view){
+    private void showRecordDetails(int position, View view) {
         AccountRecord accountRecord = list.get(position);
         Intent intent = new Intent(ShowAllRecordActivity.this, ShowDetailsActivity.class);
         intent.putExtra("id", accountRecord.getId());
@@ -196,15 +199,15 @@ public class ShowAllRecordActivity extends BaseActivity {
         startActivity(intent, ActivityOptions.makeScaleUpAnimation(view, startX, startY, view.getMeasuredWidth(), 0).toBundle());
     }
 
-    private void addRecord(){
+    private void addRecord() {
         appBarLayout.setExpanded(false);
         Intent intent = new Intent(ShowAllRecordActivity.this, InputOrEditRecordActivity.class);
         startActivity(intent);
     }
 
-    private void onRecyclerViewScrolled(){
-        boolean isBottom = recyclerview.computeVerticalScrollRange() >= recyclerview.computeVerticalScrollOffset()+recyclerview.computeVerticalScrollExtent();
-        if(recyclerview.canScrollVertically(-1) && isBottom)
+    private void onRecyclerViewScrolled() {
+        boolean isBottom = recyclerview.computeVerticalScrollRange() >= recyclerview.computeVerticalScrollOffset() + recyclerview.computeVerticalScrollExtent();
+        if (recyclerview.canScrollVertically(-1) && isBottom)
             fab.hide();
         else
             fab.show();
@@ -234,16 +237,16 @@ public class ShowAllRecordActivity extends BaseActivity {
                                 RecordOperator.dele(record);
                                 list.remove(position);
                                 adapter.notifyItemRemoved(position);
-                            }else{
+                            } else {
                                 recordVH.closeMenu();
                             }
                         }
                     })
-                    .show(getSupportFragmentManager(),"confirmDele");
+                    .show(getSupportFragmentManager(), "confirmDele");
         }
     }
 
-    private void onAppbarLayoutScrolled(int i){
+    private void onAppbarLayoutScrolled(int i) {
         int offset = Math.abs(i);
         int range = appBarLayout.getTotalScrollRange();
         if (offset > range - 1) {
@@ -273,7 +276,7 @@ public class ShowAllRecordActivity extends BaseActivity {
         adapter.setClickListener(new ItemClickListener() {
             @Override
             public void click(int position, @Nullable Object... values) {
-                showRecordDetails(position,(View) values[1]);
+                showRecordDetails(position, (View) values[1]);
             }
         });
         adapter.setDelClick(new ItemClickListener() {
@@ -347,7 +350,9 @@ public class ShowAllRecordActivity extends BaseActivity {
         findViewById(R.id.slide_menu_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ToastFactory(ShowAllRecordActivity.this).showCenterToast("建设中...");
+//                new ToastFactory(ShowAllRecordActivity.this).showCenterToast("建设中...");
+                drawerLayout.closeDrawers();
+                startActivity(new Intent(ShowAllRecordActivity.this, BackupRestoreActivity.class));
             }
         });
         findViewById(R.id.slide_menu_allgroup).setOnClickListener(new View.OnClickListener() {

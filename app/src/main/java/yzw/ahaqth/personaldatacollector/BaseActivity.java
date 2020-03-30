@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
     public static long firstClickTime;
+    public static boolean verify_password_flag;
     @Override
     public Resources getResources() {
         Resources resources = super.getResources();

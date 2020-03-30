@@ -91,6 +91,8 @@ public class ShowDetailsActivity extends BaseActivity {
             }
         });
         format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss", Locale.CHINA);
+        if(!verify_password_flag)
+            finish();
     }
 
     @Override

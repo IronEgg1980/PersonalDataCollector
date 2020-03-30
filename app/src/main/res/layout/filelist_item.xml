@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filelist_item_textview"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_filelist_item"
+    android:gravity="center_vertical"
+    android:text="@string/test_string"
+    android:textSize="@dimen/textsize_M"
+    android:paddingStart="@dimen/padding_L"
+    android:paddingEnd="@dimen/padding_L"/>

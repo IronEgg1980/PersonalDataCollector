@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import yzw.ahaqth.personaldatacollector.BaseActivity;
 import yzw.ahaqth.personaldatacollector.R;
 import yzw.ahaqth.personaldatacollector.allrecords.ShowAllRecordActivity;
 import yzw.ahaqth.personaldatacollector.operators.SetupOperator;
@@ -64,6 +65,7 @@ public class InputPassWordFragment extends Fragment {
             appPwdET.requestFocus();
             return;
         }
+        BaseActivity.verify_password_flag = true;
         enterApp();
     }
     @Override

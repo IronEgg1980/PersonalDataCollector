@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.SetupActivity">
+    tools:context=".data_safe.BackupRestoreActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,7 +17,7 @@
         app:title="数据安全"
         app:titleTextColor="@android:color/white" />
 
-    <com.google.android.material.card.MaterialCardView
+    <yzw.ahaqth.personaldatacollector.custom_views.ScaleMaterialCardView
         android:id="@+id/group1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,9 +49,9 @@
                 android:text="最近备份：2020年12月12日 12:12:12"/>
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </yzw.ahaqth.personaldatacollector.custom_views.ScaleMaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
+    <yzw.ahaqth.personaldatacollector.custom_views.ScaleMaterialCardView
         android:id="@+id/group2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,5 +83,5 @@
                 android:text="共 6 条备份记录"/>
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </yzw.ahaqth.personaldatacollector.custom_views.ScaleMaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

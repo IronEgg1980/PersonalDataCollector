@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
+import yzw.ahaqth.personaldatacollector.BaseActivity;
 import yzw.ahaqth.personaldatacollector.R;
 import yzw.ahaqth.personaldatacollector.allrecords.ShowAllRecordActivity;
 import yzw.ahaqth.personaldatacollector.custom_views.GestureView;
@@ -62,6 +63,7 @@ public class GesturePassWordFragment extends Fragment {
                     return;
                 }
                 if(matched){
+                    BaseActivity.verify_password_flag = true;
                     textview1.setText("手势验证成功");
                     Intent intent = new Intent(getActivity(), ShowAllRecordActivity.class);
                     startActivity(intent);

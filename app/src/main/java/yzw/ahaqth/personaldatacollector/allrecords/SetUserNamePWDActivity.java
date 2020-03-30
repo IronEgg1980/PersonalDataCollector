@@ -89,6 +89,8 @@ public class SetUserNamePWDActivity extends BaseActivity {
                 finish();
             }
         });
+        if(!verify_password_flag)
+            finish();
     }
 
     @Override

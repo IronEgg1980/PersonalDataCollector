@@ -15,7 +15,7 @@
         android:roundIcon="@drawable/accountbag_ico2"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.SetupActivity"></activity>
+        <activity android:name=".data_safe.BackupRestoreActivity"></activity>
         <activity android:name=".allrecords.RecordGroupActivity" />
         <activity android:name=".allrecords.DeleResumeActivity" />
         <activity
@@ -43,7 +43,7 @@
         <activity
             android:name=".details.ShowDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".allrecords.ShowAllRecordActivity" />
+        <activity android:name=".allrecords.ShowAllRecordActivity"/>
         <activity
             android:name="com.linchaolong.android.imagepicker.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

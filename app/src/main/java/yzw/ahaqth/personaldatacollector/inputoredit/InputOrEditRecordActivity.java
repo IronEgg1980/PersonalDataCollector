@@ -140,6 +140,8 @@ public class InputOrEditRecordActivity extends BaseActivity {
                                            int[] grantResults) {
             }
         };
+        if(!verify_password_flag)
+            finish();
     }
 
     @Override

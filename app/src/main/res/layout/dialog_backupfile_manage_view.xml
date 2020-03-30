@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_shape">
+
+    <TextView
+        android:id="@+id/dialog_backupfile_manage_view_title"
+        style="@style/DialogTitleTextViewStyle"
+        android:text="文件列表"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_L"
+        android:paddingEnd="@dimen/padding_L"
+        android:id="@+id/linear1"
+        app:layout_constraintTop_toBottomOf="@id/dialog_backupfile_manage_view_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dialog_backupfile_manage_view_button1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_M"
+            android:paddingBottom="@dimen/padding_M"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_M"
+            android:text="批量管理"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dialog_backupfile_manage_view_button2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_M"
+            android:paddingBottom="@dimen/padding_M"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_M"
+            android:textColor="@color/colorRed"
+            android:text="批量管理"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dialog_backupfile_manage_view_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_M"
+        android:paddingEnd="@dimen/padding_M"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear1"/>
+
+    <TextView
+        android:id="@+id/dialog_backupfile_manage_view_cancelBT"
+        style="@style/DialogConfirmButtonStyle"
+        android:layout_width="match_parent"
+        android:text="@string/close"
+        android:textColor="@color/colorRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_backupfile_manage_view_recyclerview" />
+</androidx.constraintlayout.widget.ConstraintLayout>

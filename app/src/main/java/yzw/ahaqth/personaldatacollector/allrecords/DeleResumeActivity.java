@@ -1,5 +1,6 @@
 package yzw.ahaqth.personaldatacollector.allrecords;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -99,12 +100,8 @@ public class DeleResumeActivity extends BaseActivity {
                 cancelMultiMode();
             }
         });
-//        findViewById(R.id.close_info_Group).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                infoGroup.setVisibility(View.GONE);
-//            }
-//        });
+        if(!verify_password_flag)
+            finish();
     }
 
     private void cancelMultiMode(){
