@@ -143,12 +143,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 RecordOperator.clearOldDeletedRecord();// 清除删除30天以上的项目
-                if (SetupOperator.getLastAppVersion() < 2) {
-                    for (AccountRecord accountRecord : RecordOperator.findAll()) {
-                        accountRecord.setDeleted(false);
-                        RecordOperator.save(accountRecord);
-                    }
-                }
                 long version = ToolUtils.getAppVersionCode(MainActivity.this);
                 SetupOperator.setLastAppVersion(version);
             }

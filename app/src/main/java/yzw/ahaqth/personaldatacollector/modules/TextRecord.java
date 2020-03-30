@@ -15,19 +15,19 @@ public class TextRecord extends LitePalSupport {
     public boolean isDeleted;
 
     public String getKey() {
-        return EncryptAndDecrypt.decrypt(key);
+        return EncryptAndDecrypt.decryptFromString(key);
     }
 
     public void setKey(String key) {
-        this.key = EncryptAndDecrypt.encrypt(key);
+        this.key = EncryptAndDecrypt.encryptToString(key);
     }
 
     public String getContent() {
-        return EncryptAndDecrypt.decrypt(content);
+        return EncryptAndDecrypt.decryptFromString(content);
     }
 
     public void setContent(String content) {
-        this.content = EncryptAndDecrypt.encrypt(content);
+        this.content = EncryptAndDecrypt.encryptToString(content);
     }
 
     public String getRawKey(){

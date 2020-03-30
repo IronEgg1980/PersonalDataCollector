@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.SetupActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolBarStyle"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="数据安全"
+        app:titleTextColor="@android:color/white" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/group1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        app:cardElevation="@dimen/value_cardElevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/backup_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="288dp"
+                android:layout_height="72dp"
+                android:gravity="center"
+                android:text="备\t\t份"
+                android:textSize="@dimen/textsize_XL" />
+            <TextView
+                android:id="@+id/backup_data_info_TV"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="288dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textSize="@dimen/textsize_S"
+                android:textColor="@color/colorUnusedText"
+                android:text="最近备份：2020年12月12日 12:12:12"/>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:cardElevation="@dimen/value_cardElevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group1">
+        <LinearLayout
+            android:id="@+id/restore_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="288dp"
+                android:layout_height="72dp"
+                android:gravity="center"
+                android:text="恢\t\t复"
+                android:textSize="@dimen/textsize_XL" />
+            <TextView
+                android:id="@+id/restore_data_info_TV"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="288dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textSize="@dimen/textsize_S"
+                android:textColor="@color/colorUnusedText"
+                android:text="共 6 条备份记录"/>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

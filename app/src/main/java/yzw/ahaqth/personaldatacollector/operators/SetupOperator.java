@@ -17,6 +17,7 @@ public final class SetupOperator {
     private static String MY_PHONEID = "";
     private static final String ID = "MHUYOkVc";
     private static final String LAST_VERSION = "ce2UqiXEtG";
+    private static final String LAST_BACKUP_TIME = "SEZx18BiR";
     private static final String PWD = "HeUbhrCtdiu";
     private static final String GESTURE_PWD = "jfZJhU9oP";
     private static final String USER_NAME = "RneodSSWTR";
@@ -68,7 +69,7 @@ public final class SetupOperator {
     }
 
     public static Setup findOne(String key) {
-        return LitePal.where("key = ?", EncryptAndDecrypt.encrypt(key)).findFirst(Setup.class);
+        return LitePal.where("key = ?", EncryptAndDecrypt.encryptToString(key)).findFirst(Setup.class);
     }
 
     public static List<Setup> findAll() {
@@ -143,6 +144,14 @@ public final class SetupOperator {
     public static int getInputPassWordMode() {
         // 1 - 输入密码；2 - 手势密码
         return getSetupValue(INPUTPWDMODE, 1);
+    }
+
+    public static long getLastBackupTime(){
+        return getSetupValue(LAST_BACKUP_TIME,-1L);
+    }
+
+    public static void setBackupTime(long time){
+        saveSetupValue(LAST_BACKUP_TIME,time);
     }
 
     public static String getSeed() throws NullPointerException {

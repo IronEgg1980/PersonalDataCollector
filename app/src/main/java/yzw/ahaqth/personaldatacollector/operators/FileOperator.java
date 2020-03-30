@@ -32,6 +32,8 @@ import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import yzw.ahaqth.personaldatacollector.tools.EncryptAndDecrypt;
+
 public final class FileOperator {
     private static String TAG = "殷宗旺";
     public final static String BACKUP_FILE_ENDNAME = ".bak";
@@ -321,22 +323,24 @@ public final class FileOperator {
         byte[] zipBuffer = new byte[size2];
 
         inputStream.read(jsonBuffer);
-        byte[] realJson  = new byte[jsonBuffer.length - 8];
-        System.arraycopy(jsonBuffer,7,realJson,0,jsonBuffer.length - 8);
-        results.add(hexStr2Str(new String(realJson)));
+        inputStream.read(zipBuffer);
+        inputStream.close();
+
+        byte[] realJson = EncryptAndDecrypt.decryptByteArray(jsonBuffer,EncryptAndDecrypt.JSON_ENCRYPT_SEED);
+        byte[] realZip = EncryptAndDecrypt.decryptByteArray(zipBuffer,EncryptAndDecrypt.JSON_ENCRYPT_SEED);
 
         File zipFile = new File(cacheDir,System.currentTimeMillis() + ".tmp");
-        results.add(zipFile.getAbsolutePath());
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(zipFile));
-        inputStream.read(zipBuffer);
-        outputStream.write(zipBuffer);
-        inputStream.close();
+        outputStream.write(realZip);
         outputStream.close();
-//        FileWriter outputStreamWriter = new FileWriter(new File(cacheDir,"test.txt"));
-//        outputStreamWriter.write(results.get(0));
-//        outputStreamWriter.write("\n");
-//        outputStreamWriter.write(results.get(1));
-//        outputStreamWriter.close();
+
+        results.add(hexStr2Str(new String(EncryptAndDecrypt.decryptByteArray(realJson,EncryptAndDecrypt.JSON_ENCRYPT_SEED))));
+        results.add(zipFile.getAbsolutePath());
+        FileWriter outputStreamWriter = new FileWriter(new File(cacheDir,"test.txt"));
+        outputStreamWriter.write(results.get(0));
+        outputStreamWriter.write("\n");
+        outputStreamWriter.write(results.get(1));
+        outputStreamWriter.close();
         return results;
     }
 
@@ -346,26 +350,21 @@ public final class FileOperator {
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(backupFile));
 
         byte[] jsonBytes_origin = str2HexStr(JSONOperator.getBackupJsonString()).getBytes();
-        byte[] jsonBytes_result = new byte[jsonBytes_origin.length + 8];
-        for(int i = 0;i<7;i++){
-            jsonBytes_result[i] = (byte) (10 + i);
-        }
-        jsonBytes_result[jsonBytes_result.length - 1] = 20;
-        System.arraycopy(jsonBytes_origin, 0, jsonBytes_result, 7, jsonBytes_origin.length);
-        byte[] size1 = int2ByteArray(jsonBytes_result.length);
+        byte[] json = EncryptAndDecrypt.encryptByteArray(jsonBytes_origin,EncryptAndDecrypt.JSON_ENCRYPT_SEED);
 
         InputStream inputStream2 = new BufferedInputStream(new FileInputStream(getImagesZipFile()));
-        byte[] size2 = int2ByteArray(inputStream2.available());
+        byte[] imageOrigin = new byte[inputStream2.available()];
+        inputStream2.read(imageOrigin);
+        inputStream2.close();
+        byte[] image = EncryptAndDecrypt.encryptByteArray(imageOrigin,EncryptAndDecrypt.JSON_ENCRYPT_SEED);
+
+        byte[] size1 = int2ByteArray(json.length);
+        byte[] size2 = int2ByteArray(image.length);
 
         outputStream.write(size1);
         outputStream.write(size2);
-
-        byte[] image = new byte[inputStream2.available()];
-        inputStream2.read(image);
-        outputStream.write(jsonBytes_result);
+        outputStream.write(json);
         outputStream.write(image);
-
-        inputStream2.close();
         outputStream.close();
     }
 }

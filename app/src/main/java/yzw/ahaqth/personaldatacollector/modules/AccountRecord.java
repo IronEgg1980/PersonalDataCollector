@@ -1,6 +1,7 @@
 package yzw.ahaqth.personaldatacollector.modules;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.litepal.LitePal;
 import org.litepal.annotation.Column;
@@ -102,35 +103,35 @@ public class AccountRecord extends LitePalSupport {
     }
 
     public String getRecordName() {
-        return EncryptAndDecrypt.decrypt(recordName);
+        return EncryptAndDecrypt.decryptFromString(recordName);
     }
 
     public void setRecordName(String recordName) {
-        this.recordName = EncryptAndDecrypt.encrypt(recordName);
+        this.recordName = EncryptAndDecrypt.encryptToString(recordName);
     }
 
     public String getAccountName() {
-        return EncryptAndDecrypt.decrypt(accountName);
+        return EncryptAndDecrypt.decryptFromString(accountName);
     }
 
     public void setAccountName(String accountName) {
-        this.accountName = EncryptAndDecrypt.encrypt(accountName);
+        this.accountName = EncryptAndDecrypt.encryptToString(accountName);
     }
 
     public String getAccountPWD() {
-        return EncryptAndDecrypt.decrypt(accountPWD);
+        return EncryptAndDecrypt.decryptFromString(accountPWD);
     }
 
     public void setAccountPWD(String accountPWD) {
-        this.accountPWD = EncryptAndDecrypt.encrypt(accountPWD);
+        this.accountPWD = EncryptAndDecrypt.encryptToString(accountPWD);
     }
 
     public String getDescribe() {
-        return EncryptAndDecrypt.decrypt(describe);
+        return EncryptAndDecrypt.decryptFromString(describe);
     }
 
     public void setDescribe(String describe) {
-        this.describe = EncryptAndDecrypt.encrypt(describe);
+        this.describe = EncryptAndDecrypt.encryptToString(describe);
     }
 
     public String getRawRecordName() {

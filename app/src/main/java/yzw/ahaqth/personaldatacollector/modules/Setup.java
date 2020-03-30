@@ -11,8 +11,8 @@ public class Setup extends LitePalSupport {
     public Setup(){}
 
     public Setup(String key,String value){
-        this.key = EncryptAndDecrypt.encrypt(key);
-        this.value = EncryptAndDecrypt.encrypt(value);
+        this.key = EncryptAndDecrypt.encryptToString(key);
+        this.value = EncryptAndDecrypt.encryptToString(value);
     }
 
     public long getId(){
@@ -20,19 +20,19 @@ public class Setup extends LitePalSupport {
     }
 
     public String getKey() {
-        return EncryptAndDecrypt.decrypt(key);
+        return EncryptAndDecrypt.decryptFromString(key);
     }
 
     public void setKey(String key) {
-        this.key = EncryptAndDecrypt.encrypt(key);
+        this.key = EncryptAndDecrypt.encryptToString(key);
     }
 
     public String getValue() {
-        return EncryptAndDecrypt.decrypt(value);
+        return EncryptAndDecrypt.decryptFromString(value);
     }
 
     public void setValue(String value) {
-        this.value = EncryptAndDecrypt.encrypt(value);
+        this.value = EncryptAndDecrypt.encryptToString(value);
     }
 
     public String getRawKey(){

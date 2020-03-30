@@ -1,6 +1,5 @@
 package yzw.ahaqth.personaldatacollector.operators;
 
-import org.json.JSONException;
 import org.litepal.LitePal;
 
 import java.util.List;
@@ -69,7 +68,7 @@ public final class RecordOperator {
     }
 
     public static boolean isExist(String recordName) {
-        return LitePal.isExist(AccountRecord.class, "recordname = ?", EncryptAndDecrypt.encrypt(recordName));
+        return LitePal.isExist(AccountRecord.class, "recordname = ?", EncryptAndDecrypt.encryptToString(recordName));
     }
 
     public static void deleAll(List<AccountRecord> list) {
